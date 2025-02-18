@@ -72,6 +72,7 @@ Shader "TechnicalArt/Crystal"
                 float4 _TillingOffset;
                 float  _DistortIntensity;
                 float4 _InsideColor;
+                float4 _GameObjectPosition;
             CBUFFER_END
 
             Varyings vert (Attributes v)
@@ -89,7 +90,9 @@ Shader "TechnicalArt/Crystal"
                 o.viewWS = GetWorldSpaceViewDir(o.positionWS);
 
                 //计算相机空间的uv
-                o.uv_VS = (TransformWorldToView(o.positionWS) - TransformWorldToView(half3(0,0,0))).xy * _TillingOffset.xy + _TillingOffset.zw;
+                //如果仅仅用half3(0,0,0)来表示gameObject的位置，那么该物体只能在世界坐标的远点
+                //o.uv_VS = (TransformWorldToView(o.positionWS) - TransformWorldToView(half3(0,0,0))).xy * _TillingOffset.xy + _TillingOffset.zw;
+                o.uv_VS = (TransformWorldToView(o.positionWS) - TransformWorldToView(_GameObjectPosition.xyz)).xy * _TillingOffset.xy + _TillingOffset.zw;
 
                 o.uv = TRANSFORM_TEX(v.texcoord , _NormalMap);
                 return o;
@@ -125,8 +128,6 @@ Shader "TechnicalArt/Crystal"
                 half2 distortIntensity = (TransformWorldToViewDir(worldNormalDir.xyz)).xy * _DistortIntensity;  //添加法线折射
                 half2 viewSpace_UV = i.uv_VS + distortIntensity;
                 half3 refractTex = lerp(SAMPLE_TEXTURE2D(_RefractMap , sampler_RefractMap , viewSpace_UV).rgb , _InsideColor.rgb , fresnelFactor);
-
-
 
                 FinalColor = half4(fresnelColor + reflectColor + refractTex , 1.0);
                 return FinalColor;
