@@ -19,13 +19,6 @@ Shader "TechnicalArt/Crystal"
         _TillingOffset("TillingOffset",Vector) = (1,1,0,0)
         _DistortIntensity("DistortIntensity",Float) = 1
         _InsideColor("InsideColor",Color) = (1,1,1,1)
-        
-        [Header(SequenceProperty)]
-        _SequenceMap("SequenceMap",2D) = "white"{}
-        _RowAmount("HorizontalAmount",float) = 4                    //垂直方向的数量
-        _ColumnAmount("VerticalAmount",float) = 4                   //水平方向的数量
-        _Speed("Speed",Range(1,100)) = 1
-        _TileOffset("SequenceTileOffset",Vector) = (1,1,0,0)
     }
     SubShader
     {
@@ -60,7 +53,6 @@ Shader "TechnicalArt/Crystal"
                 float3 viewWS       : TEXCOORD4;
                 float3 positionWS   : TEXCOORD5;
                 float2 uv_VS        : TEXCOORD6;
-                float2 uv1          : TEXCOORD7;
             };
 
             TEXTURE2D(_NormalMap);SAMPLER(sampler_NormalMap);
@@ -80,10 +72,6 @@ Shader "TechnicalArt/Crystal"
                 float4 _TillingOffset;
                 float  _DistortIntensity;
                 float4 _InsideColor;
-                half  _RowAmount;
-                half  _ColumnAmount;
-                half  _Speed;
-                half4 _TileOffset;
             CBUFFER_END
 
             Varyings vert (Attributes v)
@@ -104,11 +92,6 @@ Shader "TechnicalArt/Crystal"
                 o.uv_VS = (TransformWorldToView(o.positionWS) - TransformWorldToView(half3(0,0,0))).xy * _TillingOffset.xy + _TillingOffset.zw;
 
                 o.uv = TRANSFORM_TEX(v.texcoord , _NormalMap);
-
-                o.uv1 = float2(v.texcoord.x/_ColumnAmount , v.texcoord.y/_RowAmount + 1/_RowAmount * (_RowAmount - 1));
-                o.uv1.x += frac(floor(_Time.y * _Speed)/_ColumnAmount);
-                o.uv1.y -= frac(floor(_Time.y * _Speed/_ColumnAmount)/_RowAmount);
-                o.uv1 = o.uv1 * _TileOffset.xy + _TileOffset.zw;
                 return o;
             }
 
@@ -142,15 +125,11 @@ Shader "TechnicalArt/Crystal"
                 half2 distortIntensity = (TransformWorldToViewDir(worldNormalDir.xyz)).xy * _DistortIntensity;  //添加法线折射
                 half2 viewSpace_UV = i.uv_VS + distortIntensity;
                 half3 refractTex = lerp(SAMPLE_TEXTURE2D(_RefractMap , sampler_RefractMap , viewSpace_UV).rgb , _InsideColor.rgb , fresnelFactor);
-               
-
-                half4 sequenceMap = SAMPLE_TEXTURE2D(_SequenceMap,sampler_SequenceMap , i.uv1);
-
-                 refractTex = lerp(refractTex,sequenceMap.rgb,sequenceMap.r);
 
 
-                FinalColor = half4(fresnelColor + reflectColor + refractTex , sequenceMap.a);
-                return sequenceMap;
+
+                FinalColor = half4(fresnelColor + reflectColor + refractTex , 1.0);
+                return FinalColor;
             }
             ENDHLSL
         }

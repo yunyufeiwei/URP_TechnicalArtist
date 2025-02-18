@@ -85,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RefractMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 77e87fb6daf3b534f8bfbee5de9add21, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RefractTex:
@@ -162,7 +162,7 @@ Material:
     - _RimColor: {r: 0.015686275, g: 0.37254903, b: 0.91372555, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TileOffset: {r: 1, g: 1, b: -0.02, a: 0.02}
-    - _TillingOffset: {r: 10.01, g: 5.82, b: 0.43, a: 0.46}
+    - _TillingOffset: {r: 6.78, g: 5.6, b: 0.43, a: 0.46}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8695852170697433447
