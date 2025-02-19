@@ -68,15 +68,17 @@ Shader "TechnicalArt/Goblet"
             {
                 half4 FinalColor;
 
+                //世界空间下的向量
                 half3 worldViewDir = SafeNormalize(i.viewWS);
                 half3 worldNormalDir = normalize(i.normalWS);
-                //视图空间下的法线
-                half3 viewNormalDir = TransformWorldToViewDir(worldNormalDir.xyz) * 0.5 + 0.5;
-                half3 positionViewSpace = normalize(TransformWorldToView(worldViewDir));
 
-                half3 matCapDir = cross(viewNormalDir,positionViewSpace);
+                //视图空间下的向量
+                half3 ViewSpaceNormalDir = TransformWorldToViewDir(worldNormalDir.xyz) * 0.5 + 0.5;
+                half3 ViewSpaceViewDir = normalize(TransformWorldToView(worldViewDir));
+
+                half3 matCapDir = cross(ViewSpaceNormalDir,ViewSpaceViewDir);
                 half2 matCapUV = matCapDir.xy * 0.5 + 0.5; 
-                half3 matcapMap = SAMPLE_TEXTURE2D(_MatCap , sampler_MatCap , viewNormalDir.xy).rgb;
+                half3 matcapMap = SAMPLE_TEXTURE2D(_MatCap , sampler_MatCap , matCapUV).rgb;
                 half3 matcapMapColor = matcapMap;
 
                 FinalColor = half4(matcapMapColor,1.0);
