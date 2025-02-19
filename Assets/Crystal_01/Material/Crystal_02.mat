@@ -162,7 +162,7 @@ Material:
     - _RimColor: {r: 0.015686275, g: 0.37254903, b: 0.91372555, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TileOffset: {r: 1, g: 1, b: -0.02, a: 0.02}
-    - _TillingOffset: {r: 7.04, g: 5, b: 0.51, a: 0.46}
+    - _TillingOffset: {r: 9.61, g: 5, b: 0.51, a: 0.46}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8695852170697433447
