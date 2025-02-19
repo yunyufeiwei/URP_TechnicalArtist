@@ -72,8 +72,9 @@ Shader "TechnicalArt/Crystal"
                 float4 _TillingOffset;
                 float  _DistortIntensity;
                 float4 _InsideColor;
-                float4 _GameObjectPosition;
             CBUFFER_END
+                //从外部传递的参数不能放在CBUFFER里面，否则会导致SRPBatcher失败
+                float4 _GameObjectPosition; 
 
             Varyings vert (Attributes v)
             {
