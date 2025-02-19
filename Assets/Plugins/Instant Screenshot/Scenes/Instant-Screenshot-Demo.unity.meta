@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 99b9b60b9c9a1c840a16e257ead12e79
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 24122
+  packageName: Instant Screenshot
+  packageVersion: 2.0
+  assetPath: Assets/Instant Screenshot/Scenes/Instant-Screenshot-Demo.unity
+  uploadId: 577247
