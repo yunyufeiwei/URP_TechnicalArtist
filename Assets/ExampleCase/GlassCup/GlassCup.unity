@@ -636,13 +636,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 701136782727589364, guid: 1b223cf384a82df45ba38e80182a205f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 33665965d3a8bef4c84015227d07dbc0, type: 2}
     - target: {fileID: 1340093773446536930, guid: 1b223cf384a82df45ba38e80182a205f, type: 3}
       propertyPath: m_Name
       value: SM_Mug_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1510338885754972642, guid: 1b223cf384a82df45ba38e80182a205f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70f9134c3e216f04ebbdea49bcc5b1da, type: 2}
     - target: {fileID: 5688950539240866596, guid: 1b223cf384a82df45ba38e80182a205f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6602387302142582463, guid: 1b223cf384a82df45ba38e80182a205f, type: 3}
       propertyPath: m_LocalScale.x

@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DirtMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -31,9 +35,19 @@ Material:
         m_Texture: {fileID: 2800000, guid: 85b4e287f905e6a429ca2b4e0e01515f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RefractMatcap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 1
+    - _DirtIntensity: 1
     - _DstFactor: 10
+    - _MaxRefractRange: 1
+    - _MinRefractRange: 0
+    - _ObjectHeight: 0.69
+    - _ObjectPivotOffset: -0.13
     - _SrcFactor: 5
     m_Colors: []
   m_BuildTextureStacks: []

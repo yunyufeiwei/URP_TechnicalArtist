@@ -8,8 +8,12 @@ Shader "TechnicalArt/Goblet"
         [Header(Matcap)]
         _MatCap("MatCap" , 2D) = "blcak"{}
         
+        _RefractMatcap("RefractMatcap" , 2D) = "black"{ }
         _MinRefractRange("MinRefractRange",Float) = 0
         _MaxRefractRange("MaxRefractRange",Float) = 1
+        
+        _ObjectPivotOffset("_ObjectPivotOffset" , float) = 0
+        _ObjectHeight("_ObjectHeight" , Range(0,10)) = 0.35
         
         _DirtMap("DirtMap",2D) = "black"{}
         _DirtIntensity("DirtIntensity",Float) = 1
@@ -51,11 +55,14 @@ Shader "TechnicalArt/Goblet"
             };
 
             TEXTURE2D(_MatCap);SAMPLER(sampler_MatCap);
+            TEXTURE2D(_RefractMatcap);SAMPLER(sampler_RefractMatcap);
             TEXTURE2D(_DirtMap);SAMPLER(sampler_DirtMap);
 
             CBUFFER_START(UnityPerMaterial)
                 float  _MinRefractRange;
                 float  _MaxRefractRange;
+                float  _ObjectPivotOffset;
+                float  _ObjectHeight;
                 float4 _DirtMap_ST;
                 float  _DirtIntensity;
                 float  _Alpha;
@@ -85,7 +92,7 @@ Shader "TechnicalArt/Goblet"
                 half3 worldNormalDir = normalize(i.normalWS);
 
                 //视图空间下的向量
-                half3 ViewSpaceNormalDir = TransformWorldToViewDir(worldNormalDir.xyz); //视图空间下法线到相机的向量
+                half3 ViewSpaceNormalDir = TransformWorldToViewDir(worldNormalDir.xyz);         //视图空间下法线到相机的向量
                 half3 ViewSpacePosition = normalize(TransformWorldToView(i.positionWS));        //视图空间下点到相机的向量
 
                 half3 matCapDir = cross(ViewSpaceNormalDir,ViewSpacePosition);
@@ -94,12 +101,16 @@ Shader "TechnicalArt/Goblet"
                 half3 matcapMap = SAMPLE_TEXTURE2D(_MatCap , sampler_MatCap , matCapUV).rgb;
                 half3 matcapMapColor = matcapMap;
 
-                //
-                half fresnelMask = dot(worldNormalDir,worldViewDir);
-                half refractMask = saturate(1 - smoothstep(_MinRefractRange , _MaxRefractRange , fresnelMask)); //折射范围过渡对比
-                half3 dirtMap = SAMPLE_TEXTURE2D(_DirtMap , sampler_DirtMap , i.uv).a * _DirtIntensity;
+                //计算折射，折射主要发生在玻璃杯边缘，因此通过菲涅尔遮罩来计算产生折射
+                half fresnelMask = saturate(1 - smoothstep(_MinRefractRange , _MaxRefractRange , dot(worldNormalDir,worldViewDir))); //折射范围过渡对比
 
-                FinalColor = half4(dirtMap,_Alpha);
+                half edgeMaskUV =  pow((i.positionWS.y - TransformObjectToWorld(half3(0,0,0).y) - _ObjectPivotOffset)/_ObjectHeight,10);
+                edgeMaskUV = smoothstep(0,0.00001,edgeMaskUV);
+                half3 refractMap = SAMPLE_TEXTURE2D(_RefractMatcap , sampler_RefractMatcap , matCapUV).rgb;
+                
+                //half3 dirtMap = SAMPLE_TEXTURE2D(_DirtMap , sampler_DirtMap , i.uv).a * _DirtIntensity;
+
+                FinalColor = half4(edgeMaskUV.xxx,1.0);
                 
                 return FinalColor;
             }
