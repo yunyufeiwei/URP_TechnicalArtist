@@ -7,6 +7,13 @@ Shader "TechnicalArt/Goblet"
         
         [Header(Matcap)]
         _MatCap("MatCap" , 2D) = "blcak"{}
+        
+        _MinRefractRange("MinRefractRange",Float) = 0
+        _MaxRefractRange("MaxRefractRange",Float) = 1
+        
+        _DirtMap("DirtMap",2D) = "black"{}
+        _DirtIntensity("DirtIntensity",Float) = 1
+        _Alpha("Alpha",Float) = 1
     }
     SubShader
     {
@@ -23,9 +30,7 @@ Shader "TechnicalArt/Goblet"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
-
+            
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
@@ -46,8 +51,14 @@ Shader "TechnicalArt/Goblet"
             };
 
             TEXTURE2D(_MatCap);SAMPLER(sampler_MatCap);
+            TEXTURE2D(_DirtMap);SAMPLER(sampler_DirtMap);
 
             CBUFFER_START(UnityPerMaterial)
+                float  _MinRefractRange;
+                float  _MaxRefractRange;
+                float4 _DirtMap_ST;
+                float  _DirtIntensity;
+                float  _Alpha;
             CBUFFER_END
 
             Varyings vert (Attributes v)
@@ -60,7 +71,8 @@ Shader "TechnicalArt/Goblet"
                 o.normalWS = TransformObjectToWorldNormal(v.normalOS);
                 o.viewWS = GetWorldSpaceViewDir(o.positionWS);
                 
-                o.uv = v.texcoord;
+                o.uv = TRANSFORM_TEX(v.texcoord , _DirtMap);
+                o.color = v.color;
                 return o;
             }
 
@@ -73,15 +85,21 @@ Shader "TechnicalArt/Goblet"
                 half3 worldNormalDir = normalize(i.normalWS);
 
                 //视图空间下的向量
-                half3 ViewSpaceNormalDir = TransformWorldToViewDir(worldNormalDir.xyz) * 0.5 + 0.5;
-                half3 ViewSpaceViewDir = normalize(TransformWorldToView(worldViewDir));
+                half3 ViewSpaceNormalDir = TransformWorldToViewDir(worldNormalDir.xyz); //视图空间下法线到相机的向量
+                half3 ViewSpacePosition = normalize(TransformWorldToView(i.positionWS));        //视图空间下点到相机的向量
 
-                half3 matCapDir = cross(ViewSpaceNormalDir,ViewSpaceViewDir);
-                half2 matCapUV = matCapDir.xy * 0.5 + 0.5; 
+                half3 matCapDir = cross(ViewSpaceNormalDir,ViewSpacePosition);
+                matCapDir = half3(-matCapDir.y,matCapDir.x,matCapDir.z);
+                half2 matCapUV = matCapDir.xy * 0.5 + 0.5;
                 half3 matcapMap = SAMPLE_TEXTURE2D(_MatCap , sampler_MatCap , matCapUV).rgb;
                 half3 matcapMapColor = matcapMap;
 
-                FinalColor = half4(matcapMapColor,1.0);
+                //
+                half fresnelMask = dot(worldNormalDir,worldViewDir);
+                half refractMask = saturate(1 - smoothstep(_MinRefractRange , _MaxRefractRange , fresnelMask)); //折射范围过渡对比
+                half3 dirtMap = SAMPLE_TEXTURE2D(_DirtMap , sampler_DirtMap , i.uv).a * _DirtIntensity;
+
+                FinalColor = half4(dirtMap,_Alpha);
                 
                 return FinalColor;
             }
