@@ -1,4 +1,4 @@
-Shader "Art_URP/Common/Glass"
+Shader "TechnicalArt/Glass"
 {
     Properties
     {
