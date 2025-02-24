@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a2bed176449b546b49b0832ac1bc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0.1
+  Speed: 0.6
   dir: 2
 --- !u!1 &889128564 stripped
 GameObject:
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a2bed176449b546b49b0832ac1bc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0.1
+  Speed: 0.8
   dir: 2
 --- !u!1 &961739749
 GameObject:
@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a2bed176449b546b49b0832ac1bc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0.1
+  Speed: 0.6
   dir: 2
 --- !u!1001 &1976851965
 PrefabInstance:
