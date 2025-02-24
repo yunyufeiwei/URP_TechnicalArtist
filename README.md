@@ -2,5 +2,7 @@
 ## *晶体&玻璃*
 
 ![Crystal](ShootImage/Crystal_01.png)
-[^1]: 这里是注释语法
+
+![GlassCup](ShootImage/GlassCup.png)
+
 
