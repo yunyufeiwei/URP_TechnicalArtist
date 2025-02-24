@@ -5,7 +5,8 @@ Shader "TechnicalArt/Slime"
         [HDR]_Color("Color" , Color) = (1,1,1,1)
         [NoScaleOffset]_BaseMap("BaseMap" , 2D) = "white"{}
         [NoScaleOffset]_MatCap("MatCap" , 2D) = "white"{}
-        [NoScaleOffset]_NormalMap("NormalMap" , 2D) = "bump"{}
+        [HDR]_EmissiveColor("EmissiveColor",Color) = (1,1,1,1)
+        [NoScaleOffset]_EmissiveMap("EmissiveMap" , 2D) = "white"{}
         
         [Header(Fresnel)]
         _RimColor("RimColor" , Color) = (1,1,1,1)
@@ -56,11 +57,12 @@ Shader "TechnicalArt/Slime"
 
             TEXTURE2D(_BaseMap);SAMPLER(sampler_BaseMap);
             TEXTURE2D(_MatCap);SAMPLER(sampler_MatCap);
-            TEXTURE2D(_NormalMap);SAMPLER(sampler_NormalMap);
             TEXTURE2D(_TriPlaneNormal);SAMPLER(sampler_TriPlaneNormal);
+            TEXTURE2D(_EmissiveMap);SAMPLER(sampler_EmissiveMap);
             
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
+                float4 _EmissiveColor;
                 float4 _BaseMap_ST;
                 float4 _RimColor;
                 float  _RimBias;
@@ -74,6 +76,7 @@ Shader "TechnicalArt/Slime"
             Varyings vert (Attributes v)
             {
                 Varyings o=(Varyings)0;
+                o.positionWS = TransformObjectToWorld(v.positionOS.xyz);
                 o.positionHCS = TransformObjectToHClip(v.positionOS);
 
                 o.normalWS = TransformObjectToWorldNormal(v.normalOS);
@@ -96,14 +99,10 @@ Shader "TechnicalArt/Slime"
                 //向量计算
                 half3 worldViewDir = SafeNormalize(i.viewDirWS);
                 half3 worldNormal_Obj = normalize(i.normalWS);
-                half3x3 TBN = float3x3(i.tangentWS.xyz,i.bitangentWS.xyz,i.normalWS.xyz);
-
-                half4 normalMap = SAMPLE_TEXTURE2D(_NormalMap,sampler_NormalMap,i.uv);
-                half3 normalTS = UnpackNormal(normalMap).xyz;
-                half3 worldNormalDir = TransformTangentToWorld(normalTS , TBN , true);
 
                 //TriPlaneMapping
                 half3 worldSpaceUV = (i.positionWS - TransformObjectToWorld(half3(0,0,0))) * _Tilling.xyz + (_Time.y * _Speed.xyz);
+
                 half2 TriPlane_RG = worldSpaceUV.xy;
                 half2 TriPlane_GB = worldSpaceUV.yz;
                 half2 TriPlane_RB = worldSpaceUV.xz;
@@ -117,7 +116,7 @@ Shader "TechnicalArt/Slime"
 
                 half3 viewNormalDir = TransformWorldToViewDir(NormalRec.xyz);
 
-                //计算
+                //计算菲涅尔遮罩
                 half  fresnel = pow(saturate(dot(worldNormal_Obj , worldViewDir)) , _RimPower) * _RimScale + _RimBias;
                 half4 fresnelColor = fresnel * _RimColor;
 
@@ -126,9 +125,12 @@ Shader "TechnicalArt/Slime"
                 half2 matCapUV = viewNormalDir.xy * 0.5 + 0.5;
                 half4 matCapMap = SAMPLE_TEXTURE2D(_MatCap,sampler_MatCap , matCapUV) * _Color;
 
-                FinalColor = half4(viewNormalDir,1.0);
+                half4 emissiveMap = SAMPLE_TEXTURE2D(_EmissiveMap,sampler_EmissiveMap , i.uv);
+                half4 emissiveColor = _EmissiveColor * emissiveMap * fresnelColor;
+
+                FinalColor = half4(baseMap.rgb * matCapMap + emissiveColor ,1.0);
                
-                return fresnelColor;
+                return FinalColor;
             }
             ENDHLSL
         }
