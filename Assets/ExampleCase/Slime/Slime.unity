@@ -299,7 +299,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2416214244569443191, guid: d6fd602c5ec9073459093d16f60b97bf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.025133004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2416214244569443191, guid: d6fd602c5ec9073459093d16f60b97bf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2416214244569443191, guid: d6fd602c5ec9073459093d16f60b97bf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.22421673
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2416214244569443191, guid: d6fd602c5ec9073459093d16f60b97bf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -341,6 +341,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 59454b30f05fd974fbe69d417ea52d4e, type: 2}
+    - target: {fileID: 8509639898751034430, guid: d6fd602c5ec9073459093d16f60b97bf, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9000996177019294033, guid: d6fd602c5ec9073459093d16f60b97bf, type: 3}
       propertyPath: m_Name
       value: Slime
