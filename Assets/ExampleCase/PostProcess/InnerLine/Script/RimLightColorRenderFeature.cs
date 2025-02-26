@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Experimental.Rendering.Universal;
 
 [Tooltip("改RenderFeature用于给角色添加内描边效果.")]
 public class RimLightColorRenderFeature : ScriptableRendererFeature
