@@ -43,8 +43,8 @@ Shader "TechnicalArt/ASlime"
 			#pragma fragment frag
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-			#include "Assets/ExampleCase/Slime/Shader/TriPlaneSampler.hlsl"
-			#include "Assets/ExampleCase/Slime/Shader/Property.hlsl"
+			#include "TriPlaneSampler.hlsl"
+			#include "Property.hlsl"
 
 			struct VertexInput
 			{
