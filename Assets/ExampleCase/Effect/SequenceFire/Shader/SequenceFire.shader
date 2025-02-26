@@ -1,4 +1,4 @@
-Shader "Art_URP/Effect/SequenceFire"
+Shader "TechnicalArt/VFX/SequenceFire"
 {
     Properties
     {

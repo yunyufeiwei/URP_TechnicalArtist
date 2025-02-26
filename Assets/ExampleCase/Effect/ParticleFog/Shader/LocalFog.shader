@@ -1,4 +1,4 @@
-Shader "Miami/VFX/LocalFog"
+Shader "TechnicalArt/VFX/LocalFog"
 {
 	Properties
 	{

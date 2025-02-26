@@ -1,4 +1,4 @@
-Shader "Art_URP/Character/VFX_Emissive"
+Shader "TechnicalArt/VFX/VFX_Emissive"
 {
     Properties
     {   

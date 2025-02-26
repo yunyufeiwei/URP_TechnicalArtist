@@ -1,4 +1,4 @@
-Shader "Art_URP/Character/VFX_IBL"
+Shader "TechnicalArt/VFX/VFX_IBL"
 {
     Properties
     {

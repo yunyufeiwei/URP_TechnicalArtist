@@ -1,4 +1,4 @@
-﻿Shader "AP01/L12/Dota2" 
+﻿Shader "TechnicalArt/Dota2" 
 {
     Properties 
     {

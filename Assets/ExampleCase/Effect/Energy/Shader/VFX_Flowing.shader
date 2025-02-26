@@ -1,4 +1,4 @@
-Shader "Art_URP/Character/VFX_Flowing"
+Shader "TechnicalArt/VFX/VFX_Flowing"
 {
     Properties
     {

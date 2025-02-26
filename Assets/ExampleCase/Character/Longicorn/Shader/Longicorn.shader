@@ -1,4 +1,4 @@
-Shader "Art_URP/Character/Longicorn"
+Shader "TechnicalArt/Longicorn"
 {
     Properties
     {

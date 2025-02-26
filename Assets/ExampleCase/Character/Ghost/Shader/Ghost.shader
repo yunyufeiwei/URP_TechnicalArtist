@@ -1,4 +1,4 @@
-Shader "Art_URP/Character/Ghost"
+Shader "TechnicalArt/Ghost"
 {
     Properties
     {

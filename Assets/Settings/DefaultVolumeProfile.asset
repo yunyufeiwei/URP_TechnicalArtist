@@ -146,6 +146,40 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+--- !u!114 &-6899901208834543218
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d472b0b59755c034ba233d0299acb9ed, type: 3}
+  m_Name: RimLightColorVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  thicknessX:
+    m_OverrideState: 1
+    m_Value: 0.01
+  thicknessY:
+    m_OverrideState: 1
+    m_Value: 0.01
+  maxThickness:
+    m_OverrideState: 1
+    m_Value: 0.01
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  lerpValue:
+    m_OverrideState: 1
+    m_Value: 1
+  distance:
+    m_OverrideState: 1
+    m_Value: 0.01
+  rimLightColor:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &-6335409530604852063
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -465,6 +499,7 @@ MonoBehaviour:
   - {fileID: -6288072647309666549}
   - {fileID: 7518938298396184218}
   - {fileID: -1410297666881709256}
+  - {fileID: -6899901208834543218}
 --- !u!114 &853819529557874667
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -853,6 +888,40 @@ MonoBehaviour:
   intensity:
     m_OverrideState: 1
     m_Value: 0
+--- !u!114 &4766572154551302581
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d472b0b59755c034ba233d0299acb9ed, type: 3}
+  m_Name: RimLightColorVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  thicknessX:
+    m_OverrideState: 1
+    m_Value: 0.01
+  thicknessY:
+    m_OverrideState: 1
+    m_Value: 0.01
+  maxThickness:
+    m_OverrideState: 1
+    m_Value: 0.01
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  lerpValue:
+    m_OverrideState: 1
+    m_Value: 1
+  distance:
+    m_OverrideState: 1
+    m_Value: 0.01
+  rimLightColor:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &6940869943325143175
 MonoBehaviour:
   m_ObjectHideFlags: 3

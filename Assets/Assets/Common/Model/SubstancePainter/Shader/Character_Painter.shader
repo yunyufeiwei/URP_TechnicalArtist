@@ -70,9 +70,9 @@
                 float4 _MainTex_ST;
                 float3 _MainCol;
                 float _EnvDiffInt;
-                float3 _EnvUpCol;
-                float3 _EnvSideCol;
-                float3 _EnvDownCol;
+                float4 _EnvUpCol;
+                float4 _EnvSideCol;
+                float4 _EnvDownCol;
                 // Specular
                 float _SpecPow;
                 float _FresnelPow;
@@ -117,7 +117,7 @@
                 float4 var_MainTex = SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex, i.uv0);
                 float4 var_SpecTex = SAMPLE_TEXTURE2D(_SpecTex,sampler_SpecTex, i.uv0);
                 float3 var_EmitTex = SAMPLE_TEXTURE2D(_EmitTex, sampler_EmitTex,i.uv0).rgb;
-                float3 var_Cubemap = SAMPLE_TEXTURECUBE_LOD(_Cubemap,sampler_Cubemap, float4(vrDirWS, lerp(_CubemapMip, 0.0, var_SpecTex.a)),3).rgb;
+                float3 var_Cubemap = SAMPLE_TEXTURECUBE_LOD(_Cubemap,sampler_Cubemap, float4(vrDirWS, lerp(_CubemapMip, 0.0, var_SpecTex.a)).rgb,3).rgb;
                 // 光照模型(直接光照部分)
                 float3 baseCol = var_MainTex.rgb * _MainCol;
                 float lambert = max(0.0, ndotl);
@@ -126,7 +126,7 @@
                 float phong = pow(max(0.0, vdotr), specPow);
                 float3 dirLighting = (baseCol * lambert + specCol * phong) * lightColor;
                 // 光照模型(环境光照部分)
-                float3 envCol = TriColAmbient(nDirWS, _EnvUpCol, _EnvSideCol, _EnvDownCol);
+                float3 envCol = TriColAmbient(nDirWS, _EnvUpCol.rgb, _EnvSideCol.rgb, _EnvDownCol.rgb);
                 float fresnel = pow(max(0.0, 1.0 - vdotn), _FresnelPow);    // 菲涅尔
                 float occlusion = var_MainTex.a;
                 float3 envLighting = (baseCol * envCol * _EnvDiffInt + var_Cubemap * fresnel * _EnvSpecInt * var_SpecTex.a) * occlusion;

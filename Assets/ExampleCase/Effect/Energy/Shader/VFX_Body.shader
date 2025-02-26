@@ -1,4 +1,4 @@
-Shader "Art_URP/Character/VFX_Body"
+Shader "TechnicalArt/VFX/VFX_Body"
 {
     Properties
     {
