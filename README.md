@@ -20,5 +20,7 @@
 
 ![序列帧火焰](ShootImage/E_SequenceFire.gif)
 
+# 后期效果
+![内描边](ShootImage/Post_Inner.png)
 
 
