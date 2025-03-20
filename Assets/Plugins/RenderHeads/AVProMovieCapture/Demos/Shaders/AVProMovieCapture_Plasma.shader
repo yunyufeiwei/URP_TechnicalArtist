@@ -6,17 +6,17 @@
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags{"RenderPipeline" = "UniversalPipeline" "RenderType" = "Opaque"  "Queue" = "Geometry"}
 		LOD 100
 
 		Pass
 		{
-			CGPROGRAM
+			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			// #pragma exclude_renderers gles
 			#pragma target 2.5
-			#include "UnityCG.cginc"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
 			struct appdata
 			{
@@ -30,8 +30,12 @@
 				float4 vertex : SV_POSITION;
 			};
 
-			sampler2D _MainTex;
-			float4 _MainTex_ST;
+			TEXTURE2D(_MainTex);SAMPLER(sampler_MainTex);
+			CBUFFER_START(UnityPerMaterial)
+				float4 _MainTex_ST;
+			CBUFFER_END
+
+			
 
 			//dave hoskins hash
 			float2 hash(float2 p)
@@ -96,12 +100,12 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.vertex = TransformObjectToHClip(v.vertex.xyz);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				return o;
 			}
 
-			fixed4 frag (v2f i) : SV_Target
+			half4 frag (v2f i) : SV_Target
 			{
 				i.uv += float2(0, -_Time.y * 0.1);
 
@@ -109,14 +113,14 @@
 				float b = 1 - r;
 				float g = 1.0 - 2 * abs(i.uv.x - 0.5);
 
-				fixed4 col = fixed4(r, g, b, 1) * plasma(i.uv);
+				half4 col = half4(r, g, b, 1) * plasma(i.uv);
 
 				col.rgb = tonemap(col.rgb);
 				col.a = 1;
 
 				return col;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 
